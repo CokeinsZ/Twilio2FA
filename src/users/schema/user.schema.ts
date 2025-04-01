@@ -20,7 +20,7 @@ export class User {
   @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({ default: 'user' })
+  @Prop({ default: 'editor' })
   role: string;
 
   @Prop({ type: String, required: false })

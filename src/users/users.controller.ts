@@ -21,33 +21,39 @@ import {
     VerifyPhoneDto
   } from './dto/user.dto';
   import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Public } from './decorators/public.decorator';
   
   @Controller('users')
   export class UsersController {
     constructor(private readonly usersService: UsersService) {}
   
+    @Public()
     @Post('signup')
     async create(@Body() createUserDto: CreateUserDto) {
       await this.usersService.create(createUserDto);
       return { message: 'User registered successfully. Please check your email for verification code.' };
     }
   
+    @Public()
     @Post('verify-email')
     verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
       return this.usersService.verifyEmail(verifyEmailDto);
     }
 
+    @Public()
     @Post('verify-phone')
     verifyPhone(@Body() verifyPhoneDto: VerifyPhoneDto) {
       return this.usersService.verifyPhone(verifyPhoneDto);
     }
   
+    @Public()
     @HttpCode(HttpStatus.OK)
     @Post('login')
     login(@Body() loginDto: LoginDto) {
       return this.usersService.login(loginDto);
     }
   
+    @Public()
     @HttpCode(HttpStatus.OK)
     @Post('refresh-token')
     refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {

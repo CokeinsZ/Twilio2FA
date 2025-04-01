@@ -24,6 +24,10 @@ import {
     @IsString()
     @MinLength(6)
     password: string;
+
+    @IsOptional()
+    @IsString()
+    role?: string;
   }
   
   export class UpdateUserDto {
@@ -44,6 +48,10 @@ import {
     @IsString()
     @MinLength(6)
     password?: string;
+
+    @IsOptional()
+    @IsString()
+    role?: string;
   }
   
   export class LoginDto {
