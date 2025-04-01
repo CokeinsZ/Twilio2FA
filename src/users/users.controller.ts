@@ -17,7 +17,8 @@ import {
     LoginDto, 
     RefreshTokenDto, 
     ChangePasswordDto, 
-    VerifyEmailDto 
+    VerifyEmailDto, 
+    VerifyPhoneDto
   } from './dto/user.dto';
   import { JwtAuthGuard } from './guards/jwt-auth.guard';
   
@@ -34,6 +35,11 @@ import {
     @Post('verify-email')
     verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
       return this.usersService.verifyEmail(verifyEmailDto);
+    }
+
+    @Post('verify-phone')
+    verifyPhone(@Body() verifyPhoneDto: VerifyPhoneDto) {
+      return this.usersService.verifyPhone(verifyPhoneDto);
     }
   
     @HttpCode(HttpStatus.OK)

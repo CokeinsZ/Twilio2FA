@@ -3,6 +3,8 @@ import {
     CreateUserDto,
     LoginDto,
     UpdateUserDto,
+    VerifyEmailDto,
+    VerifyPhoneDto,
   } from '../dto/user.dto';
   
   export interface User {
@@ -10,6 +12,7 @@ import {
     id?: string;           
     name: string;
     email: string;
+    phone: string;
     isVerified: boolean;
     role: string;
     refreshToken?: string;
@@ -26,10 +29,11 @@ import {
     findByEmail(email: string): Promise<User>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<User>;
     remove(id: string): Promise<void>;
-    verifyUser(id: string): Promise<User>;
+    verifyEmail(verifyEmailDto: VerifyEmailDto): Promise<{ message: string }>;
+    verifyPhone(verifyPhoneDto: VerifyPhoneDto): Promise<{ message: string }>;
     login(
       loginDto: LoginDto,
-    ): Promise<{ accessToken: string; refreshToken: string; user: User }>;
+    ): Promise<{ message: string, userId: string }>;
     refreshToken(
       refreshToken: string,
     ): Promise<{ accessToken: string; refreshToken: string }>;

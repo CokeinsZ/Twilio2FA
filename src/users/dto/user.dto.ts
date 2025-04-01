@@ -10,6 +10,11 @@ import {
     @IsNotEmpty()
     @IsString()
     name: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(3)
+    phone: string;
   
     @IsNotEmpty()
     @IsEmail()
@@ -29,6 +34,11 @@ import {
     @IsOptional()
     @IsEmail()
     email?: string;
+
+    @IsOptional()
+    @IsString()
+    @MinLength(3)
+    phone?: string;
   
     @IsOptional()
     @IsString()
@@ -68,6 +78,16 @@ import {
     @IsEmail()
     email: string;
   
+    @IsNotEmpty()
+    @IsString()
+    code: string;
+  }
+
+  export class VerifyPhoneDto {
+    @IsNotEmpty()
+    @IsString()
+    id: string;
+
     @IsNotEmpty()
     @IsString()
     code: string;
