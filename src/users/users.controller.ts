@@ -22,6 +22,9 @@ import {
   } from './dto/user.dto';
   import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Public } from './decorators/public.decorator';
+import { CheckPolicies } from './decorators/check-policies.decorator';
+import { Action } from 'src/abilities/ability.factory';
+import { Check } from 'typeorm';
   
   @Controller('users')
   export class UsersController {
@@ -60,31 +63,30 @@ import { Public } from './decorators/public.decorator';
       return this.usersService.refreshToken(refreshTokenDto.refreshToken);
     }
   
-    @UseGuards(JwtAuthGuard)
     @Get()
+    @CheckPolicies({ action: Action.Read, subject: 'User' })
     findAll() {
       return this.usersService.findAll();
     }
   
-    @UseGuards(JwtAuthGuard)
     @Get(':id')
+    @CheckPolicies({ action: Action.Read, subject: 'User' })
     findOne(@Param('id') id: string) {
       return this.usersService.findOne(id);
     }
   
-    @UseGuards(JwtAuthGuard)
     @Patch(':id')
+    @CheckPolicies({ action: Action.Update, subject: 'User' })
     update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
       return this.usersService.update(id, updateUserDto);
     }
   
-    @UseGuards(JwtAuthGuard)
     @Delete(':id')
+    @CheckPolicies({ action: Action.Delete, subject: 'User' })
     remove(@Param('id') id: string) {
       return this.usersService.remove(id);
     }
   
-    @UseGuards(JwtAuthGuard)
     @Post(':id/change-password')
     changePassword(
       @Param('id') id: string,

@@ -8,6 +8,7 @@ import { User, UserSchema } from './schema/user.schema';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { EmailModule } from '../email/email.module';
 import { SmsModule } from 'src/sms/sms.module';
+import { AbilitiesModule } from 'src/abilities/abilities.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SmsModule } from 'src/sms/sms.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     EmailModule,
     SmsModule,
+    AbilitiesModule
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy],

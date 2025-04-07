@@ -4,8 +4,15 @@ import {
     IsString,
     MinLength,
     IsOptional,
+    IsEnum
   } from 'class-validator';
   
+  export enum UserRole {
+    USER = 'user',
+    EDITOR = 'editor',
+    ADMIN = 'admin',
+  }
+
   export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
@@ -26,8 +33,8 @@ import {
     password: string;
 
     @IsOptional()
-    @IsString()
-    role?: string;
+    @IsEnum(UserRole, { message: 'role must be one of the following: user, editor, admin' } )
+    role?: UserRole = UserRole.EDITOR;
   }
   
   export class UpdateUserDto {
@@ -50,8 +57,8 @@ import {
     password?: string;
 
     @IsOptional()
-    @IsString()
-    role?: string;
+    @IsEnum(UserRole, { message: 'role must be one of the following: user, editor, admin' } )
+    role?: UserRole;
   }
   
   export class LoginDto {
