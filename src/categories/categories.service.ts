@@ -28,6 +28,15 @@ export class CategoriesService implements CategoryServiceInterface {
         return this.toCategoryInterface(savedCategory);
     }
 
+    async findByName(name: string): Promise<Category> {
+        const category = await this.categoryModel.findOne({ name }).exec();
+        if (!category) {
+            throw new NotFoundException('Category not found');
+        }
+        
+        return this.toCategoryInterface(category);
+    }
+
     async findAll(): Promise<Category[]> {
         const categories = await this.categoryModel.find().exec();
         return categories.map((category) => this.toCategoryInterface(category));

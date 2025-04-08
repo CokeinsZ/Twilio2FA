@@ -11,6 +11,9 @@ export class Product {
     @Prop({ required: true })
     description: string;
 
+    @Prop({ type: MoongoseSchema.Types.ObjectId, ref: 'Category' })
+    category: string;
+
     @Prop({ required: true })
     price: number;
 
