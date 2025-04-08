@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './users/guards/jwt-auth.guard';
 import { AbilitiesModule } from './abilities/abilities.module';
 import { PoliciesGuard } from './users/guards/policies.guard';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PoliciesGuard } from './users/guards/policies.guard';
     UsersModule,
     ProductsModule,
     AbilitiesModule,
+    CategoriesModule,
   ],
 
   providers: [
