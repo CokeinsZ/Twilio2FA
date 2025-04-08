@@ -58,7 +58,6 @@ export class ProductsService implements ProductsServiceInterface {
             category: existingCategory._id,
             createdBy: userId,
         });
-        newProduct.save();
 
         const savedProduct = await newProduct.save();
         return this.toProductInterface(savedProduct, existingCategory.name);

@@ -17,9 +17,15 @@ export class CategoriesService implements CategoryServiceInterface {
     }
 
     private encodeImage(file: Express.Multer.File): string {
-        if (!file || !file.buffer) {
-            throw new Error('Invalid file');
+        if (!file) {
+            throw new Error('File is missing');
         }
+    
+        if (!file.buffer || !(file.buffer instanceof Buffer)) {
+            console.error('Invalid file buffer:', file);
+            throw new Error('File buffer is missing or invalid');
+        }
+    
         return file.buffer.toString('base64');
     }
 
