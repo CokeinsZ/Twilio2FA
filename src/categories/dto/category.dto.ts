@@ -17,8 +17,6 @@ export class CreateCategoryDto {
     @IsBoolean()
     @IsOptional()
     isActive: boolean = true;
-
-    image: string;
 }
 
 export class UpdateCategoryDto {

@@ -16,14 +16,26 @@ export class CategoriesService implements CategoryServiceInterface {
         return categoryObj as Category;
     }
 
-    async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    private encodeImage(file: Express.Multer.File): string {
+        if (!file || !file.buffer) {
+            throw new Error('Invalid file');
+        }
+        return file.buffer.toString('base64');
+    }
+
+    async create(createCategoryDto: CreateCategoryDto, file: Express.Multer.File): Promise<Category> {
         const existingCategory = await this.categoryModel.findOne({ name: createCategoryDto.name });
         if (existingCategory) {
             throw new Error('Category already exists');
         }
 
-        const newCategory = new this.categoryModel(createCategoryDto);
+        const image = this.encodeImage(file);
+        const newCategory = new this.categoryModel({
+            ...createCategoryDto,
+            image
+        });
         const savedCategory = await newCategory.save();
+
 
         return this.toCategoryInterface(savedCategory);
     }
@@ -51,10 +63,14 @@ export class CategoriesService implements CategoryServiceInterface {
         return this.toCategoryInterface(category);
     }
 
-    async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+    async update(id: string, updateCategoryDto: UpdateCategoryDto, file: Express.Multer.File): Promise<Category> {
         const existingCategory = await this.categoryModel.findById(id).exec();
         if (!existingCategory) {
             throw new NotFoundException('Category not found');
+        }
+
+        if (file) {
+            updateCategoryDto.image = this.encodeImage(file);
         }
 
         const updatedCategory = await this.categoryModel.findByIdAndUpdate(id, updateCategoryDto, { new: true }).exec();

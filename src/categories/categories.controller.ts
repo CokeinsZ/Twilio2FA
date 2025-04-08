@@ -14,6 +14,8 @@ import {
   import { CategoriesService } from './categories.service';
   import { CreateCategoryDto } from './dto/category.dto';
   import { UpdateCategoryDto } from './dto/category.dto';
+import { CheckPolicies } from 'src/users/decorators/check-policies.decorator';
+import { Action } from 'src/abilities/ability.factory';
 
   @Controller('categories')
   export class CategoriesController {
@@ -31,29 +33,40 @@ import {
     }
   
     @Post()
-    create(@Body() createCategoryDto: CreateCategoryDto) {
-      return this.categoriesService.create(createCategoryDto);
+    @CheckPolicies({ action: Action.Create, subject: 'Category' })
+    @UseInterceptors(FileInterceptor('file'))
+    create(
+      @Body() createCategoryDto: CreateCategoryDto,
+      @UploadedFile() file: Express.Multer.File)
+    {
+      return this.categoriesService.create(createCategoryDto, file);
     }
   
     @Get()
+    @Public()
     findAll() {
       return this.categoriesService.findAll();
     }
   
     @Get(':id')
+    @Public()
     findOne(@Param('id') id: string) {
       return this.categoriesService.findOne(id);
     }
   
     @Put(':id')
+    @CheckPolicies({ action: Action.Update, subject: 'Category' })
+    @UseInterceptors(FileInterceptor('file'))
     update(
       @Param('id') id: string,
       @Body() updateCategoryDto: UpdateCategoryDto,
+      @UploadedFile() file: Express.Multer.File,
     ) {
-      return this.categoriesService.update(id, updateCategoryDto);
+      return this.categoriesService.update(id, updateCategoryDto, file);
     }
   
     @Delete(':id')
+    @CheckPolicies({ action: Action.Delete, subject: 'Category' })
     remove(@Param('id') id: string) {
       return this.categoriesService.remove(id);
     }
